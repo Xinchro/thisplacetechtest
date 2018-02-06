@@ -21,23 +21,25 @@ const quests = {
   }
 }
 
-function doQuestion(url, method, body) {
+function getOrPost(url, method, body) {
   if(method === "POST") {
-    fetch(`${baseURL}${url}`, {
+    return fetch(`${baseURL}${url}`, {
       "method": "post",
       "body": body,
       "headers": {
         "Content-Type": "application/json"
       }
     })
-    .then(res => res.text())
-    .then(body => console.log(body))
   } else
   if(method === "GET") {
-    fetch(`${baseURL}${url}`)
-    .then(res => res.text())
-    .then(body => console.log(body))
+    return fetch(`${baseURL}${url}`)
   }
+}
+
+function doQuestion(url, method, body) {
+  return getOrPost(url, method, body)
+  .then(res => res.text())
+  .then(body => console.log(body))
 }
 
 // question 1
