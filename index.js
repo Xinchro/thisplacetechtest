@@ -31,7 +31,15 @@ const quests = {
     "url": "/question/3/Walter/57cf80d7",
     "answer": {
       "body": {
-        "answer": "tops"
+        "answer": firstChars(4, "tops")
+      }
+    }
+  },
+  "four": {
+    "url": "/question/4/Walter/af0df078",
+    "answer": {
+      "body": {
+        "answer": firstChars(3, "thrilling")
       }
     }
   }
@@ -74,7 +82,7 @@ function doQuestion(url, method, body) {
 
 /*
   Dead simple math function
-  @returns result of the function, defaults to error
+  @returns number - result of the math function, defaults to error
 */
 function doMath(in1, func, in2) {
   // simple switch for +, -, *, /
@@ -103,6 +111,15 @@ function doMath(in1, func, in2) {
   }
 }
 
+/*
+  Returns the first characters (of length "count") of a given string
+  @returns string - substring of specified length
+*/
+function firstChars(count, word) {
+  if(count > word.length) return "Error, specified length is bigger than string"
+  return word.substring(0, count)
+}
+
 // ---- QUESTIONS ---- //
 
 // ---- GETS ---- //
@@ -116,6 +133,9 @@ function doMath(in1, func, in2) {
 // question 3
 // doQuestion(quests.three.url, "GET")
 
+// question 4
+// doQuestion(quests.four.url, "GET")
+
 // ---- ANSWERS ---- //
 
 // question 1
@@ -126,3 +146,6 @@ function doMath(in1, func, in2) {
 
 // question 3
 // doQuestion(quests.three.url, "POST", quests.three.answer.body)
+
+// question 4
+// doQuestion(quests.four.url, "POST", quests.four.answer.body)
