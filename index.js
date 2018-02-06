@@ -1,7 +1,14 @@
 const fetch = require("node-fetch")
 
+
+const baseURL = "http://dev-challenge.thisplace.com"
+const questionURLs = {
+  "first": "/question/1/Walter Reis/d5202403"
+}
+
+
 function setName() {
-  fetch("http://dev-challenge.thisplace.com/hello", {
+  fetch(`${baseURL}/hello`, {
     "method": "post",
     "body": JSON.stringify({
       "name": "Walter Reis"
@@ -13,4 +20,3 @@ function setName() {
   .then(res => res.text())
   .then(body => console.log(body))
 }
-
