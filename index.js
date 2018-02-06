@@ -3,7 +3,7 @@ const fetch = require("node-fetch")
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
 
-// questions and the associated urls, methods and bodies
+// questions(getting and answering) and the associated urls, methods and bodies
 const quests = {
   "name": {
     "method": "POST",
@@ -13,25 +13,29 @@ const quests = {
     }
   },
   "one": {
-    "method": "GET",
-    "url": "/question/1/Walter/309363b7"
-  },
-  "two": {
-    "method": "POST",
-    "url": "/question/1/Walter/309363b7",
-    "body": {
-      "answer": doMath(3, "*", 5)
+    "get": {
+      "method": "GET",
+      "url": "/question/1/Walter/309363b7"
+    },
+    "answer": {
+      "method": "POST",
+      "url": "/question/1/Walter/309363b7",
+      "body": {
+        "answer": doMath(3, "*", 5)
+      }
     }
   },
-  "three": {
-    "method": "GET",
-    "url": "/question/2/Walter/477fb029"
-  },
-  "four": {
-    "method": "POST",
-    "url": "/question/2/Walter/477fb029",
-    "body": {
-      "answer": doMath(7, "*", 7)
+  "two": {
+    "get": {
+      "method": "GET",
+      "url": "/question/2/Walter/477fb029"
+    },
+    "answer": {
+      "method": "POST",
+      "url": "/question/2/Walter/477fb029",
+      "body": {
+        "answer": doMath(7, "*", 7)
+      }
     }
   }
 }
@@ -104,14 +108,19 @@ function doMath(in1, func, in2) {
 
 // ---- QUESTIONS ---- //
 
+// ---- GETS ---- //
+
 // question 1
-// doQuestion(quests.one.url, quests.one.method, quests.one.body)
+// doQuestion(quests.one.get.url, quests.one.get.method, quests.one.get.body)
 
 // question 2
-// doQuestion(quests.two.url, quests.two.method, quests.two.body)
+// doQuestion(quests.two.get.url, quests.two.get.method, quests.two.get.body)
 
-// question 3
-// doQuestion(quests.three.url, quests.three.method, quests.three.body)
+// ---- ANSWERS ---- //
 
-// question 4
-// doQuestion(quests.four.url, quests.four.method, quests.four.body)
+// question 1
+// doQuestion(quests.one.answer.url, quests.one.answer.method, quests.one.answer.body)
+
+// question 2
+// doQuestion(quests.two.answer.url, quests.two.answer.method, quests.two.answer.body)
+
