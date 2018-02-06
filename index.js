@@ -1,7 +1,9 @@
 const fetch = require("node-fetch")
 
+// tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
 
+// questions and the associated urls, methods and bodies
 const quests = {
   "name": {
     "method": "POST",
@@ -17,12 +19,19 @@ const quests = {
   "two": {
     "method": "POST",
     "url": "/question/1/Walter/309363b7",
-    "body": ""
+    "body": JSON.stringify({
+      "answer": doMath(3, "*", 5)
+    })
   }
 }
 
+/*
+  Does get or post request and returns the resulting promise
+  @returns promise
+*/
 function getOrPost(url, method, body) {
   if(method === "POST") {
+    // post request, sending stringified json as the body
     return fetch(`${baseURL}${url}`, {
       "method": "post",
       "body": body,
@@ -32,15 +41,56 @@ function getOrPost(url, method, body) {
     })
   } else
   if(method === "GET") {
+    // normal get request
     return fetch(`${baseURL}${url}`)
   }
 }
 
+/*
+  Does the question at the specified url, with the specified method, sending the specified body
+  @returns console.log TODO return the text
+*/
 function doQuestion(url, method, body) {
   return getOrPost(url, method, body)
   .then(res => res.text())
   .then(body => console.log(body))
 }
 
+/*
+  Dead simple math function
+  @returns result of the function, defaults to error
+*/
+function doMath(in1, func, in2) {
+  // simple switch for +, -, *, /
+  // defaults to error
+  // errors on dividing by 0
+  switch(func) {
+    case "+":
+      return in1 + in2
+      break
+    case "-":
+      return in1 - in2
+      break
+    case "*":
+      return in1 * in2
+      break
+    case "/":
+      if(in2 === 0) {
+        return "Error, dividing by zero"
+      } else {
+        return in1 / in2
+      }
+      break
+    default:
+      console.error("Error, unsupported math in doMath()")
+      return "Error, unsupported math"
+  }
+}
+
+// ---- QUESTIONS ---- //
+
 // question 1
-// doQuestion(quests.one.url, quests.one.method, quests.one.data)
+// doQuestion(quests.one.url, quests.one.method, quests.one.body)
+
+// question 2
+doQuestion(quests.two.url, quests.two.method, quests.two.body)
