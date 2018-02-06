@@ -42,8 +42,50 @@ const quests = {
         "answer": firstChars(3, "thrilling")
       }
     }
+  },
+  "five": {
+    "url": "/question/5/Walter/5e97b4de",
+    "answer": {
+      "body": {
+        "answer": "8"
+      }
+    }
   }
 }
+
+
+
+/* question 5 breakdown
+
+number - ask priority(lower -A- | higher -V- )
+0 -    4
+1 -   3
+2 -  2
+3 -   3
+4 - 1
+5 -    4
+6 -   3
+7 -  2
+8 -   3
+9 -    4
+
+----------
+
+lower  < - >  higher
+
+-V-  asking order  -V-
+
+step1-       4       
+step2-     2    7    
+step3-    1 3  6 8   
+step4-   0    5   9  
+
+results:
+1- >4
+2- >7
+3- 8! Ding, ding! <confetti emoji>
+4- 
+*/
 
 /*
   Does get or post request and returns the resulting promise
@@ -136,6 +178,9 @@ function firstChars(count, word) {
 // question 4
 // doQuestion(quests.four.url, "GET")
 
+// question 5
+// doQuestion(quests.five.url, "GET")
+
 // ---- ANSWERS ---- //
 
 // question 1
@@ -149,3 +194,6 @@ function firstChars(count, word) {
 
 // question 4
 // doQuestion(quests.four.url, "POST", quests.four.answer.body)
+
+// question 5
+// doQuestion(quests.five.url, "POST", quests.five.answer.body)
