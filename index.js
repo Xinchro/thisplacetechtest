@@ -37,6 +37,19 @@ const quests = {
         "answer": doMath(7, "*", 7)
       }
     }
+  },
+  "three": {
+    "get": {
+      "method": "GET",
+      "url": "/question/3/Walter/57cf80d7"
+    },
+    "answer": {
+      "method": "POST",
+      "url": "/question/3/Walter/57cf80d7",
+      "body": {
+        "answer": "tops"
+      }
+    }
   }
 }
 
@@ -116,6 +129,9 @@ function doMath(in1, func, in2) {
 // question 2
 // doQuestion(quests.two.get.url, quests.two.get.method, quests.two.get.body)
 
+// question 3
+// doQuestion(quests.three.get.url, quests.three.get.method, quests.three.get.body)
+
 // ---- ANSWERS ---- //
 
 // question 1
@@ -123,4 +139,7 @@ function doMath(in1, func, in2) {
 
 // question 2
 // doQuestion(quests.two.answer.url, quests.two.answer.method, quests.two.answer.body)
+
+// question 3
+doQuestion(quests.three.answer.url, quests.three.answer.method, quests.three.answer.body)
 
