@@ -1,4 +1,5 @@
 const fetch = require("node-fetch")
+const fs = require("fs")
 
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
@@ -48,6 +49,14 @@ const quests = {
     "answer": {
       "body": {
         "answer": "8"
+      }
+    }
+  },
+  "winner": {
+    "url": "/success/Walter/f20aec12",
+    "answer": {
+      "body": {
+        "answer": ""
       }
     }
   }
@@ -114,12 +123,20 @@ function getOrPost(url, method, body) {
 
 /*
   Does the question at the specified url, with the specified method, sending the specified body
-  @returns console.log TODO return the text
+  @returns promise - resulting text
 */
 function doQuestion(url, method, body) {
   return getOrPost(url, method, body)
   .then(res => res.text())
-  .then(body => console.log(body))
+}
+
+/*
+  Alias for doQuestion with logging
+  @return - undefined, nothing
+*/
+function logQuestion(url, method, body) {
+  doQuestion(url, method, body)
+  .then(text => console.log(text))
 }
 
 /*
@@ -162,38 +179,60 @@ function firstChars(count, word) {
   return word.substring(0, count)
 }
 
+/*
+  Simple function to spit out a markup/HTML file based on a string
+  @returns undefined - nothing
+*/
+function saveHTML(markup) {
+  fs.writeFile("./winner.html", markup, "utf8", (error) => {
+    if(error) {
+      console.error("Failed to save markup", error)
+      throw error
+    }
+    console.log("Markup saved successfully")
+  })
+}
+
 // ---- QUESTIONS ---- //
+
+// setting your name
+// logQuestion(quests.name.url, "POST", quests.name.body)
 
 // ---- GETS ---- //
 
 // question 1
-// doQuestion(quests.one.url, "GET")
+// logQuestion(quests.one.url, "GET")
 
 // question 2
-// doQuestion(quests.two.url, "GET")
+// logQuestion(quests.two.url, "GET")
 
 // question 3
-// doQuestion(quests.three.url, "GET")
+// logQuestion(quests.three.url, "GET")
 
 // question 4
-// doQuestion(quests.four.url, "GET")
+// logQuestion(quests.four.url, "GET")
 
 // question 5
-// doQuestion(quests.five.url, "GET")
+// logQuestion(quests.five.url, "GET")
 
 // ---- ANSWERS ---- //
 
 // question 1
-// doQuestion(quests.one.url, "POST", quests.one.answer.body)
+// logQuestion(quests.one.url, "POST", quests.one.answer.body)
 
 // question 2
-// doQuestion(quests.two.url, "POST", quests.two.answer.body)
+// logQuestion(quests.two.url, "POST", quests.two.answer.body)
 
 // question 3
-// doQuestion(quests.three.url, "POST", quests.three.answer.body)
+// logQuestion(quests.three.url, "POST", quests.three.answer.body)
 
 // question 4
-// doQuestion(quests.four.url, "POST", quests.four.answer.body)
+// logQuestion(quests.four.url, "POST", quests.four.answer.body)
 
 // question 5
-// doQuestion(quests.five.url, "POST", quests.five.answer.body)
+// logQuestion(quests.five.url, "POST", quests.five.answer.body)
+
+
+// ----- WINNER ----- // 
+// doQuestion(quests.winner.url, "GET").then(text => saveHTML(text))
+

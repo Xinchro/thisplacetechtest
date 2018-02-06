@@ -4,7 +4,8 @@
   "description": "The tech test for ThisPlace",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"Don't forget to uncomment whatever functions you'd want to run first!\" && node index.js",
+    "test": "echo \"Error: no test specified, TODO, not sure if it's something you would have wanted to see?\" && exit 1"
   },
   "author": "Walter Reis (Xinchro)",
   "license": "MIT",
