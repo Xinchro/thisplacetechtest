@@ -3,49 +3,33 @@ const fetch = require("node-fetch")
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
 
-// questions(getting and answering) and the associated urls, methods and bodies
+// questions and the associated urls and answers
 const quests = {
   "name": {
-    "method": "POST",
     "url": "/hello",
     "body": {
       "name": "Walter"
     }
   },
   "one": {
-    "get": {
-      "method": "GET",
-      "url": "/question/1/Walter/309363b7"
-    },
+    "url": "/question/1/Walter/309363b7",
     "answer": {
-      "method": "POST",
-      "url": "/question/1/Walter/309363b7",
       "body": {
         "answer": doMath(3, "*", 5)
       }
     }
   },
   "two": {
-    "get": {
-      "method": "GET",
-      "url": "/question/2/Walter/477fb029"
-    },
+    "url": "/question/2/Walter/477fb029",
     "answer": {
-      "method": "POST",
-      "url": "/question/2/Walter/477fb029",
       "body": {
         "answer": doMath(7, "*", 7)
       }
     }
   },
   "three": {
-    "get": {
-      "method": "GET",
-      "url": "/question/3/Walter/57cf80d7"
-    },
+    "url": "/question/3/Walter/57cf80d7",
     "answer": {
-      "method": "POST",
-      "url": "/question/3/Walter/57cf80d7",
       "body": {
         "answer": "tops"
       }
@@ -124,22 +108,21 @@ function doMath(in1, func, in2) {
 // ---- GETS ---- //
 
 // question 1
-// doQuestion(quests.one.get.url, quests.one.get.method, quests.one.get.body)
+// doQuestion(quests.one.url, "GET")
 
 // question 2
-// doQuestion(quests.two.get.url, quests.two.get.method, quests.two.get.body)
+// doQuestion(quests.two.url, "GET")
 
 // question 3
-// doQuestion(quests.three.get.url, quests.three.get.method, quests.three.get.body)
+// doQuestion(quests.three.url, "GET")
 
 // ---- ANSWERS ---- //
 
 // question 1
-// doQuestion(quests.one.answer.url, quests.one.answer.method, quests.one.answer.body)
+// doQuestion(quests.one.url, "POST", quests.one.answer.body)
 
 // question 2
-// doQuestion(quests.two.answer.url, quests.two.answer.method, quests.two.answer.body)
+// doQuestion(quests.two.url, "POST", quests.two.answer.body)
 
 // question 3
-doQuestion(quests.three.answer.url, quests.three.answer.method, quests.three.answer.body)
-
+// doQuestion(quests.three.url, "POST", quests.three.answer.body)
