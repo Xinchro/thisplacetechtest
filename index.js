@@ -8,9 +8,9 @@ const quests = {
   "name": {
     "method": "POST",
     "url": "/hello",
-    "body": JSON.stringify({
+    "body": {
       "name": "Walter"
-    })
+    }
   },
   "one": {
     "method": "GET",
@@ -19,9 +19,9 @@ const quests = {
   "two": {
     "method": "POST",
     "url": "/question/1/Walter/309363b7",
-    "body": JSON.stringify({
+    "body": {
       "answer": doMath(3, "*", 5)
-    })
+    }
   }
 }
 
@@ -30,6 +30,10 @@ const quests = {
   @returns promise
 */
 function getOrPost(url, method, body) {
+  if(typeof body === "object") {
+    body = JSON.stringify(body)
+  }
+
   if(method === "POST") {
     // post request, sending stringified json as the body
     return fetch(`${baseURL}${url}`, {
@@ -93,4 +97,4 @@ function doMath(in1, func, in2) {
 // doQuestion(quests.one.url, quests.one.method, quests.one.body)
 
 // question 2
-doQuestion(quests.two.url, quests.two.method, quests.two.body)
+// doQuestion(quests.two.url, quests.two.method, quests.two.body)
