@@ -1,0 +1,11 @@
+{
+  "name": "thisplacetechtest",
+  "version": "0.0.0",
+  "description": "The tech test for ThisPlace",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Walter Reis (Xinchro)",
+  "license": "MIT"
+}
