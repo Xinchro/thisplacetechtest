@@ -22,6 +22,17 @@ const quests = {
     "body": {
       "answer": doMath(3, "*", 5)
     }
+  },
+  "three": {
+    "method": "GET",
+    "url": "/question/2/Walter/477fb029"
+  },
+  "four": {
+    "method": "POST",
+    "url": "/question/2/Walter/477fb029",
+    "body": {
+      "answer": doMath(7, "*", 7)
+    }
   }
 }
 
@@ -98,3 +109,9 @@ function doMath(in1, func, in2) {
 
 // question 2
 // doQuestion(quests.two.url, quests.two.method, quests.two.body)
+
+// question 3
+// doQuestion(quests.three.url, quests.three.method, quests.three.body)
+
+// question 4
+// doQuestion(quests.four.url, quests.four.method, quests.four.body)
