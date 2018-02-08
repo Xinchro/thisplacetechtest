@@ -144,7 +144,6 @@ function generateName() {
   @returns string - the resulting found URL
 */
 function getNextURL(response) {
-  // console.log("Response:", response)
   const regex = /\/.*/g // regex pattern to find the URL
   const nextURL = regex.exec(response)[0] // returns next URL after a regex match
   console.log("Next URL:", nextURL)
@@ -252,6 +251,20 @@ function doMath(in1, func, in2) {
   // simple switch for +, -, *, /
   // defaults to error
   // errors on dividing by 0
+  if(typeof in1 === "string") {
+    try {
+      in1 = parseInt(in1)
+    } catch(err) {
+      console.error(err)
+    }
+  }
+  if(typeof in2 === "string") {
+    try {
+      in2 = parseInt(in2)
+    } catch(err) {
+      console.error(err)
+    }
+  }
   switch(func) {
     case "plus":
       return in1 + in2
