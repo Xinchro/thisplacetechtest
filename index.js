@@ -83,13 +83,19 @@ function doTheThing() {
   })
 }
 
+/*
+  Adds a URL to the URL list and sets it to the next URL
+  @returns string - the next URL
+*/
 function addAndSetNextURL(url) {
   nextURL = addToURLs(url)
   console.log("Next URL is:", nextURL)
+  return nextURL
 }
 
 /*
   Adds to the URL list and return the next(latest) URL
+  @returns string - the next URL
 */
 function addToURLs(url) {
   URLs.push(url)
@@ -97,6 +103,10 @@ function addToURLs(url) {
   return URLs[URLs.length-1]
 }
 
+/*
+  Generates a name of random characters from length 5 to 10
+  @returns string - the generated name
+*/
 function generateName() {
   let aName = ""
 
@@ -114,6 +124,10 @@ function generateName() {
   return aName
 }
 
+/*
+  Parses a response and looks for a regex pattern to match the structure of a URL
+  @returns string - the resulting found URL
+*/
 function getNextURL(response) {
   console.log("Response:", response)
   const regex = /\/.*/g // regex pattern to find the URL
