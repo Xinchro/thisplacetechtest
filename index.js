@@ -104,7 +104,12 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
-  // TODO .then(nexturl => { // question 3
+  .then(nexturl => { // question 3
+    doQuestion(nexturl, "GET")
+    .then(response => {
+      parseWordQuestion(response)
+    })
+  })
   // TODO .then(nexturl => { // question 4
   // TODO .then(nexturl => { // question 5
 
@@ -178,6 +183,20 @@ function parseArithmeticQuestion(response) {
   mathQ[mathQ.length-1] = mathQ[mathQ.length-1].split("?")[0] // remove the question mark
 
   return [mathQ[2], mathQ[3], mathQ[4]] // final question: X +|-|*|/ Y
+}
+
+/*
+  Parses a response and looks for a regex pattern to match the structure of a word question
+  @returns array - the important parts of the question in the form of [last|first, <number of letters>, <word to split>]
+*/
+function parseWordQuestion(response) {
+  const regex = /(w|W)hat are the (first|last) [0-9] letters of the word ".*"\?/gi // regex pattern to find the equation
+
+  let wordQ = regex.exec(response)[0] // regex found equation
+  wordQ = wordQ.split(" ") // split the question into seperate parts
+  wordQ[wordQ.length-1] = wordQ[wordQ.length-1].split("?")[0].split("\"")[1] // remove the question mark and quotations
+
+  return [wordQ[3], wordQ[4], wordQ[qordQ.length-1]] // final question: last|first <number> <word>"
 }
 
 doTheThing()
