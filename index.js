@@ -63,7 +63,6 @@ const quests = {
 }
 
 let URLs = ["/hello"]
-let nextURL = URLs[0]
 
 let username = "ThisIsNotAName"
 
