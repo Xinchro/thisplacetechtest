@@ -4,64 +4,6 @@ const fs = require("fs")
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
 
-// questions and the associated urls and answers
-const quests = {
-  "name": {
-    "url": "/hello",
-    "body": {
-      "name": "Walter"
-    }
-  },
-  "one": {
-    "url": "/question/1/Walter/309363b7",
-    "answer": {
-      "body": {
-        "answer": doMath(3, "*", 5)
-      }
-    }
-  },
-  "two": {
-    "url": "/question/2/Walter/477fb029",
-    "answer": {
-      "body": {
-        "answer": doMath(7, "*", 7)
-      }
-    }
-  },
-  "three": {
-    "url": "/question/3/Walter/57cf80d7",
-    "answer": {
-      "body": {
-        "answer": firstChars(4, "tops")
-      }
-    }
-  },
-  "four": {
-    "url": "/question/4/Walter/af0df078",
-    "answer": {
-      "body": {
-        "answer": firstChars(3, "thrilling")
-      }
-    }
-  },
-  "five": {
-    "url": "/question/5/Walter/5e97b4de",
-    "answer": {
-      "body": {
-        "answer": "8"
-      }
-    }
-  },
-  "winner": {
-    "url": "/success/Walter/f20aec12",
-    "answer": {
-      "body": {
-        "answer": ""
-      }
-    }
-  }
-}
-
 let URLs = ["/hello"]
 
 let username = "ThisIsNotAName"
@@ -287,7 +229,7 @@ doTheThing()
 function parseGuessQuestion(response) {
   if(response.includes("Correct!")) {
     return ["correct", 0] // correct and 0 remaining, we won
-  } else 
+  } else
   if(response.includes("Unfortunately")) {
     return ["We failed :(", 0]
   }
