@@ -27,11 +27,16 @@ function doTheThing() {
     // get the question and, once it's been answered, return with the URL of the next question
     return doQuestion(nexturl, "GET")
     .then(response => {
+      console.log(response, "\n")
       console.log("----- Answering question 1 -----")
       // question 1 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addToURLs(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => {
+        console.log("Our answer:", doMath(q[0], q[1], q[2]))
+        console.log(response, "\n")
+        return addToURLs(getNextURL(response))
+      })
     })
   })
 
@@ -40,11 +45,16 @@ function doTheThing() {
     // get the question and, once it's been answered, return with the URL of the next question
     return doQuestion(nexturl, "GET")
     .then(response => {
+      console.log(response, "\n")
       console.log("----- Answering question 2 -----")
       // question 2 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addToURLs(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => {
+        console.log("Our answer:", doMath(q[0], q[1], q[2]))
+        console.log(response, "\n")
+        return addToURLs(getNextURL(response))
+      })
     })
   })
 
@@ -53,11 +63,16 @@ function doTheThing() {
     // get the question and, once it's been answered, return with the URL of the next question
     return doQuestion(nexturl, "GET")
     .then(response => {
+      console.log(response, "\n")
       console.log("----- Answering question 3 -----")
       // question 3 is word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addToURLs(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => {
+        console.log("Our answer:", doWord(w[0], w[1], w[2]))
+        console.log(response, "\n")
+        return addToURLs(getNextURL(response))
+      })
     })
   })
 
@@ -66,11 +81,16 @@ function doTheThing() {
     // get the question and, once it's been answered, return with the URL of the next question
     return doQuestion(nexturl, "GET")
     .then(response => {
+      console.log(response, "\n")
       console.log("----- Answering question 4 -----")
       // question 4 is a word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addToURLs(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => {
+        console.log("Our answer:", doWord(w[0], w[1], w[2]))
+        console.log(response, "\n")
+        return addToURLs(getNextURL(response))
+      })
     })
   })
 
@@ -81,19 +101,19 @@ function doTheThing() {
     .then(response => {
       console.log(response, "\n")
       console.log("----- Answering question 5 -----")
+      // TODO - VERY UGLY MESS, NEEDS FIXING
       // guess an initial number
       doQuestion(nexturl, "POST", answer(4))
       .then(response => {
-        console.log(response, "\n")
+        console.log(response)
+        console.log("Our answer, guess 1:", 4)
+        console.log("\n")
         let remaining = parseGuessQuestion(response)[1]
         let lastGuess = [4, 9, 0] // initial guess, upper and lower limits
         let currentNumber = lastGuess[0]
         let upperLimit = lastGuess[1]
         let lowerLimit = lastGuess[2]
 
-        // establish what our next guess should be
-        // called lastGuess because it reflects the result of our last guess (even though we're doing it now)
-        lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
         // if we're correct, shout and end the program
         // also save the victory markup as a file
         if(parseGuessQuestion(response)[0] === "correct") {
@@ -101,13 +121,18 @@ function doTheThing() {
           getAndSave(getNextURL(response))
           return
         }
+
+        // establish what our next guess should be
+        // called lastGuess because it reflects the result of our last guess (even though we're doing it now)
+        lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
         
         // ugly promise chain to spend our 3 remaining guesses
         // doQuestion(nexturl, "POST", answer(lastGuess[0]))
         doQuestion(nexturl, "POST", answer(lastGuess[0]))
         .then(response => {
-          // prints the range and guesses remaining
-          console.log(response, "\n")
+          console.log(response)
+          console.log("Our answer, guess 2:", lastGuess[0])
+          console.log("\n")
           // new guess
           lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
           if(parseGuessQuestion(response)[0] === "correct") {
@@ -117,7 +142,9 @@ function doTheThing() {
           }
           doQuestion(nexturl, "POST", answer(lastGuess[0]))
           .then(response => {
-            console.log(response, "\n")
+            console.log(response)
+            console.log("Our answer, guess 3:", lastGuess[0])
+            console.log("\n")
             lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
             if(parseGuessQuestion(response)[0] === "correct") {
               console.log("I AM INVINCIBLE")
@@ -126,7 +153,9 @@ function doTheThing() {
             }
             doQuestion(nexturl, "POST", answer(lastGuess[0]))
             .then(response => {
-              console.log(response, "\n")
+              console.log(response)
+              console.log("Our answer, guess 4(final):", lastGuess[0])
+              console.log("\n")
               if(parseGuessQuestion(response)[0] === "correct") {
                 console.log("I AM INVINCIBLE")
                 getAndSave(getNextURL(response))
@@ -153,7 +182,6 @@ function doTheThing() {
 */
 function addToURLs(url) {
   URLs.push(url)
-  console.log("URLs are now:", URLs)
   return URLs[URLs.length-1]
 }
 
@@ -185,7 +213,6 @@ function generateName() {
 function getNextURL(response) {
   const regex = /\/.*/g // regex pattern to find the URL
   const nextURL = regex.exec(response)[0] // returns next URL after a regex match
-  console.log("Next URL:", nextURL)
   return nextURL
 }
 
