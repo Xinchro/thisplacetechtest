@@ -128,7 +128,67 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
-  // TODO .then(nexturl => { // question 5
+  .then(nexturl => { // question 5
+    console.log("----- Getting question 5 -----")
+    // get the question and, once it's been answered, return with the URL of the next question
+    return doQuestion(nexturl, "GET")
+    .then(response => {
+      console.log(response, "\n")
+      console.log("----- Answering question 5 -----")
+      // guess an initial number
+      doQuestion(nexturl, "POST", answer(4))
+      .then(response => {
+        console.log(response, "\n")
+        let remaining = parseGuessQuestion(response)[1]
+        let lastGuess = [4, 9, 0] // initial guess, upper and lower limits
+        let currentNumber = lastGuess[0]
+        let upperLimit = lastGuess[1]
+        let lowerLimit = lastGuess[2]
+
+        // establish what our next guess should be
+        // called lastGuess because it reflects the result of our last guess (even though we're doing it now)
+        lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
+        if(parseGuessQuestion(response)[0] === "correct") {
+          console.log("I AM INVINCIBLE")
+          return
+        }
+        
+        // ugly promise chain to spend our 3 remaining guesses
+        // doQuestion(nexturl, "POST", answer(lastGuess[0]))
+        doQuestion(nexturl, "POST", answer(lastGuess[0]))
+        .then(response => {
+          // prints the range and guesses remaining
+          console.log(response, "\n")
+          // new guess
+          lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
+          // checks if we've got the correct value
+          if(parseGuessQuestion(response)[0] === "correct") {
+            console.log("I AM INVINCIBLE")
+            return
+          }
+          doQuestion(nexturl, "POST", answer(lastGuess[0]))
+          .then(response => {
+            console.log(response, "\n")
+            lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
+            if(parseGuessQuestion(response)[0] === "correct") {
+              console.log("I AM INVINCIBLE")
+              return
+            }
+            doQuestion(nexturl, "POST", answer(lastGuess[0]))
+            .then(response => {
+              console.log(response, "\n")
+              if(parseGuessQuestion(response)[0] === "correct") {
+                console.log("I AM INVINCIBLE")
+                return
+              } else {
+                console.log(parseGuessQuestion(response)[0])
+              }
+            })
+          })
+        })
+      })
+    })
+  })
 
   // simply just constructs the answer body for POSTs
   function answer(answer) {
@@ -218,37 +278,66 @@ function parseWordQuestion(response) {
 
 doTheThing()
 
-/* question 5 breakdown
-
-number - ask priority(lower -A- | higher -V- )
-0 -    4
-1 -   3
-2 -  2
-3 -   3
-4 - 1
-5 -    4
-6 -   3
-7 -  2
-8 -   3
-9 -    4
-
-----------
-
-lower  < - >  higher
-
--V-  asking order  -V-
-
-step1-       4       
-step2-     2    7    
-step3-    1 3  6 8   
-step4-   0    5   9  
-
-results:
-1- >4
-2- >7
-3- 8! Ding, ding! <confetti emoji>
-4- 
+/*
+  Parses a response and looks for 2 regex patterns to match the structure of a guess question
+  First pattern is to find if our guess was greater, less or correct
+  Second pattern is to find remaining guesses
+  @returns array -  [greater|less, <number of guesses left>]
 */
+function parseGuessQuestion(response) {
+  if(response.includes("Correct!")) {
+    return ["correct", 0] // correct and 0 remaining, we won
+  } else 
+  if(response.includes("Unfortunately")) {
+    return ["We failed :(", 0]
+  }
+
+  const regex = /my number is (greater|less) than your guess\./gi // regex pattern to find the equation
+
+  let guessQ = regex.exec(response)[0] // regex found equation
+  guessQ = guessQ.split(" ") // split the question into seperate parts
+  
+  const remainingRegex = /you have [0-9] guess\(es\) remaining./gi // regex pattern to find the remaining sentence
+  let remaining = remainingRegex.exec(response)[0].split(" ")[2] // splits at space and gets remaining guesses
+
+  try {
+    remaining = parseInt(remaining)
+  } catch(err) {
+    console.error("error parsing int in parseGuessQuestion()")
+    console.error(err)
+  }
+
+  return [guessQ[3], remaining] // final question: greater|less <number>"
+}
+
+/*
+  Makes a guess for question 5
+  @returns array - [currentNo, upperLimit, lowerLimit]
+*/
+function guessANumber(currNo, upperNo, lowerNo, upperlower) {
+  let currentNo = currNo
+  let upperLimit = upperNo
+  let lowerLimit = lowerNo
+
+  if(!upperlower) {
+    console.log("no upperlower, not even attempting to guess", currNo)
+    return currNo
+  }
+
+  if(upperlower === "less") {
+    currentNo = currNo - Math.ceil((currNo - lowerNo) / 2)
+    upperLimit = currNo
+    lowerLimit = lowerNo
+  }
+  else
+  if(upperlower === "greater") {
+    currentNo = currNo + Math.ceil((upperNo - currNo) / 2)
+    upperLimit = upperNo
+    lowerLimit = currNo
+  }
+
+  return [currentNo, upperLimit, lowerLimit]
+}
 
 /*
   Does get or post request and returns the resulting promise
@@ -305,6 +394,7 @@ function doMath(in1, func, in2) {
     try {
       in1 = parseInt(in1)
     } catch(err) {
+      console.error("error parsing int in doMath() in1")
       console.error(err)
     }
   }
@@ -312,6 +402,7 @@ function doMath(in1, func, in2) {
     try {
       in2 = parseInt(in2)
     } catch(err) {
+      console.error("error parsing int in doMath() in2")
       console.error(err)
     }
   }
