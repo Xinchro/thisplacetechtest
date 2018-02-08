@@ -176,7 +176,7 @@ function getNextURL(response) {
   @returns array - the equation in the form of [X, operation, Y]
 */
 function parseArithmeticQuestion(response) {
-  const regex = /(w|W)hat is [0-9] (plus|minus|times|divided by) [0-9]\?/gi // regex pattern to find the equation
+  const regex = /what is [0-9] (plus|minus|times|divided by) [0-9]\?/gi // regex pattern to find the equation
 
   let mathQ = regex.exec(response)[0] // regex found equation
   mathQ = mathQ.split(" ") // split the question into seperate parts
@@ -190,7 +190,7 @@ function parseArithmeticQuestion(response) {
   @returns array - the important parts of the question in the form of [last|first, <number of letters>, <word to split>]
 */
 function parseWordQuestion(response) {
-  const regex = /(w|W)hat are the (first|last) [0-9] letters of the word ".*"\?/gi // regex pattern to find the equation
+  const regex = /what are the (first|last) [0-9] letters of the word ".*"\?/gi // regex pattern to find the equation
 
   let wordQ = regex.exec(response)[0] // regex found equation
   wordQ = wordQ.split(" ") // split the question into seperate parts
