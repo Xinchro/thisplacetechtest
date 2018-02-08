@@ -384,6 +384,8 @@ function lastChars(count, word) {
 }
 
 /*
+  Simple logic to decide if we're looking for the first or last characters in a string
+  @returns string - substring of specified length, from either the start or end of a string, error message is there's a problem
 */
 function doWord(firstlast, count, word) {
   if(firstlast === "first") {
