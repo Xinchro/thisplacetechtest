@@ -94,6 +94,7 @@ function doTheThing() {
         // establish what our next guess should be
         // called lastGuess because it reflects the result of our last guess (even though we're doing it now)
         lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
+        // if we're correct, shout and end the program
         if(parseGuessQuestion(response)[0] === "correct") {
           console.log("I AM INVINCIBLE")
           return
@@ -107,7 +108,6 @@ function doTheThing() {
           console.log(response, "\n")
           // new guess
           lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
-          // checks if we've got the correct value
           if(parseGuessQuestion(response)[0] === "correct") {
             console.log("I AM INVINCIBLE")
             return
