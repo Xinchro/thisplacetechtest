@@ -95,8 +95,10 @@ function doTheThing() {
         // called lastGuess because it reflects the result of our last guess (even though we're doing it now)
         lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
         // if we're correct, shout and end the program
+        // also save the victory markup as a file
         if(parseGuessQuestion(response)[0] === "correct") {
           console.log("I AM INVINCIBLE")
+          getAndSave(getNextURL(response))
           return
         }
         
@@ -110,6 +112,7 @@ function doTheThing() {
           lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
           if(parseGuessQuestion(response)[0] === "correct") {
             console.log("I AM INVINCIBLE")
+            getAndSave(getNextURL(response))
             return
           }
           doQuestion(nexturl, "POST", answer(lastGuess[0]))
@@ -118,6 +121,7 @@ function doTheThing() {
             lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
             if(parseGuessQuestion(response)[0] === "correct") {
               console.log("I AM INVINCIBLE")
+              getAndSave(getNextURL(response))
               return
             }
             doQuestion(nexturl, "POST", answer(lastGuess[0]))
@@ -125,6 +129,7 @@ function doTheThing() {
               console.log(response, "\n")
               if(parseGuessQuestion(response)[0] === "correct") {
                 console.log("I AM INVINCIBLE")
+                getAndSave(getNextURL(response))
                 return
               } else {
                 console.log(parseGuessQuestion(response)[0])
@@ -398,6 +403,18 @@ function doWord(firstlast, count, word) {
     return "Erroneous first|last"
   }
 }
+
+
+/*
+  Gets and saves the markup from a URL
+*/
+function getAndSave(url) {
+  doQuestion(url, "GET")
+  .then(markup => {
+    saveHTML(markup)
+  })
+}
+
 /*
   Simple function to spit out a markup/HTML file based on a string
   @returns undefined - nothing
