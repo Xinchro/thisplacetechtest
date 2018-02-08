@@ -105,9 +105,15 @@ function doTheThing() {
     })
   })
   .then(nexturl => { // question 3
-    doQuestion(nexturl, "GET")
+    console.log("----- Getting question 3 -----")
+    // get the question and, once it's been answered, return with the URL of the next question
+    return doQuestion(nexturl, "GET")
     .then(response => {
-      parseWordQuestion(response)
+      console.log("----- Answering question 3 -----")
+      // question 1 is arithmetic, so we parse it as such
+      const w = parseWordQuestion(response)
+      // answer the question and return with the URL of the next question
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
   // TODO .then(nexturl => { // question 4
@@ -339,6 +345,19 @@ function lastChars(count, word) {
   return word.substring(word.length-count, word.length)
 }
 
+/*
+*/
+function doWord(firstlast, count, word) {
+  if(firstlast === "first") {
+    return firstChars(count, word)
+  } else
+  if(firstlast === "last") {
+    return lastChars(count, word)
+  } else {
+    console.error("Erroneous first|last in doWord()")
+    return "Erroneous first|last"
+  }
+}
 /*
   Simple function to spit out a markup/HTML file based on a string
   @returns undefined - nothing
