@@ -81,16 +81,33 @@ function doTheThing() {
   .then(response => {
     return addAndSetNextURL(getNextURL(response))
   })
-  .then(nexturl => {
+  .then(nexturl => { // question 1
     console.log("----- Getting question 1 -----")
-    doQuestion(nexturl, "GET")
+    // get the question and, once it's been answered, return with the URL of the next question
+    return doQuestion(nexturl, "GET")
     .then(response => {
       console.log("----- Answering question 1 -----")
+      // question 1 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
-      console.log(q)
-      logQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2])))
+      // answer the question and return with the URL of the next question
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
+  .then(nexturl => { // question 2
+    console.log("----- Getting question 2 -----")
+    // get the question and, once it's been answered, return with the URL of the next question
+    return doQuestion(nexturl, "GET")
+    .then(response => {
+      console.log("----- Answering question 2 -----")
+      // question 1 is arithmetic, so we parse it as such
+      const q = parseArithmeticQuestion(response)
+      // answer the question and return with the URL of the next question
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+    })
+  })
+  // TODO .then(nexturl => { // question 3
+  // TODO .then(nexturl => { // question 4
+  // TODO .then(nexturl => { // question 5
 
   // simply just constructs the answer body for POSTs
   function answer(answer) {
@@ -155,14 +172,12 @@ function getNextURL(response) {
   @returns array - the equation in the form of [X, operation, Y]
 */
 function parseArithmeticQuestion(response) {
-  console.log("Response:", response)
   const regex = /(w|W)hat is [0-9] (plus|minus|times|divided by) [0-9]\?/gi // regex pattern to find the equation
 
   let mathQ = regex.exec(response)[0] // regex found equation
   mathQ = mathQ.split(" ") // split the question into seperate parts
   mathQ[mathQ.length-1] = mathQ[mathQ.length-1].split("?")[0] // remove the question mark
 
-  console.log("Arithmetic question:", mathQ)
   return [mathQ[2], mathQ[3], mathQ[4]] // final question: X +|-|*|/ Y
 }
 
