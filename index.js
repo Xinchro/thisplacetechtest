@@ -196,7 +196,7 @@ function parseWordQuestion(response) {
   wordQ = wordQ.split(" ") // split the question into seperate parts
   wordQ[wordQ.length-1] = wordQ[wordQ.length-1].split("?")[0].split("\"")[1] // remove the question mark and quotations
 
-  return [wordQ[3], wordQ[4], wordQ[qordQ.length-1]] // final question: last|first <number> <word>"
+  return [wordQ[3], wordQ[4], wordQ[wordQ.length-1]] // final question: last|first <number> <word>"
 }
 
 doTheThing()
