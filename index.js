@@ -79,8 +79,23 @@ function doTheThing() {
   // setting your name
   doQuestion(URLs[0], "POST", `{"name": "${username}"}`)
   .then(response => {
-    addAndSetNextURL(getNextURL(response))
+    return addAndSetNextURL(getNextURL(response))
   })
+  .then(nexturl => {
+    console.log("----- Getting question 1 -----")
+    doQuestion(nexturl, "GET")
+    .then(response => {
+      console.log("----- Answering question 1 -----")
+      const q = parseArithmeticQuestion(response)
+      console.log(q)
+      logQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2])))
+    })
+  })
+
+  // simply just constructs the answer body for POSTs
+  function answer(answer) {
+    return `{"answer":"${answer}"}`
+  }
 }
 
 /*
@@ -129,11 +144,27 @@ function generateName() {
   @returns string - the resulting found URL
 */
 function getNextURL(response) {
-  console.log("Response:", response)
+  // console.log("Response:", response)
   const regex = /\/.*/g // regex pattern to find the URL
   const nextURL = regex.exec(response)[0] // returns next URL after a regex match
   console.log("Next URL:", nextURL)
   return nextURL
+}
+
+/*
+  Parses a response and looks for a regex pattern to match the structure of a math operation
+  @returns array - the equation in the form of [X, operation, Y]
+*/
+function parseArithmeticQuestion(response) {
+  console.log("Response:", response)
+  const regex = /(w|W)hat is [0-9] (plus|minus|times|divided by) [0-9]\?/gi // regex pattern to find the equation
+
+  let mathQ = regex.exec(response)[0] // regex found equation
+  mathQ = mathQ.split(" ") // split the question into seperate parts
+  mathQ[mathQ.length-1] = mathQ[mathQ.length-1].split("?")[0] // remove the question mark
+
+  console.log("Arithmetic question:", mathQ)
+  return [mathQ[2], mathQ[3], mathQ[4]] // final question: X +|-|*|/ Y
 }
 
 doTheThing()
@@ -222,16 +253,16 @@ function doMath(in1, func, in2) {
   // defaults to error
   // errors on dividing by 0
   switch(func) {
-    case "+":
+    case "plus":
       return in1 + in2
       break
-    case "-":
+    case "minus":
       return in1 - in2
       break
-    case "*":
+    case "times":
       return in1 * in2
       break
-    case "/":
+    case "divided by": // no division?
       if(in2 === 0) {
         return "Error, dividing by zero"
       } else {
