@@ -34,6 +34,7 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
+
   .then(nexturl => { // question 2
     console.log("----- Getting question 2 -----")
     // get the question and, once it's been answered, return with the URL of the next question
@@ -46,6 +47,7 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
+
   .then(nexturl => { // question 3
     console.log("----- Getting question 3 -----")
     // get the question and, once it's been answered, return with the URL of the next question
@@ -58,6 +60,7 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
+
   .then(nexturl => { // question 4
     console.log("----- Getting question 4 -----")
     // get the question and, once it's been answered, return with the URL of the next question
@@ -70,6 +73,7 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
+
   .then(nexturl => { // question 5
     console.log("----- Getting question 5 -----")
     // get the question and, once it's been answered, return with the URL of the next question
