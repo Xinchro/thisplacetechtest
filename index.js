@@ -331,6 +331,15 @@ function firstChars(count, word) {
 }
 
 /*
+  Returns the last characters (of length "count") of a given string
+  @returns string - substring of specified length
+*/
+function lastChars(count, word) {
+  if(count > word.length) return "Error, specified length is bigger than string"
+  return word.substring(word.length-count, word.length)
+}
+
+/*
   Simple function to spit out a markup/HTML file based on a string
   @returns undefined - nothing
 */
