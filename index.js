@@ -72,6 +72,12 @@ function doTheThing() {
   } else {
     username = generateName()
   }
+
+  // setting your name
+  doQuestion("/hello", "POST", `{"name": "${username}"}`)
+  .then(response => {
+    // TODO addToURLs(getNextURL(response))
+  })
 }
 
 function generateName() {
@@ -87,8 +93,16 @@ function generateName() {
     aName = aName.concat(chars[Math.floor(Math.random() * (chars.length - 1))]) // array limit is -1 from length - goes from 0 to length
   }
 
-  console.log("name generated: ", aName)
+  console.log("Name generated:", aName)
   return aName
+}
+
+function getNextURL(response) {
+  console.log("Response:", response)
+  const regex = /\/.*/g // regex pattern to find the URL
+  const nextURL = regex.exec(response)[0] // returns next URL after a regex match
+  console.log("Next URL:", nextURL)
+  return nextURL
 }
 
 doTheThing()
