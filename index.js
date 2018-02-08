@@ -70,7 +70,7 @@ function doTheThing() {
     console.log(`Your name is ${newName}!`)
     username = newName
   } else {
-    newName = generateName()
+    username = generateName()
   }
 }
 
