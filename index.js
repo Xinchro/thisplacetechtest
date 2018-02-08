@@ -98,7 +98,7 @@ function doTheThing() {
     return doQuestion(nexturl, "GET")
     .then(response => {
       console.log("----- Answering question 2 -----")
-      // question 1 is arithmetic, so we parse it as such
+      // question 2 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
       // answer the question and return with the URL of the next question
       return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
@@ -110,7 +110,7 @@ function doTheThing() {
     return doQuestion(nexturl, "GET")
     .then(response => {
       console.log("----- Answering question 3 -----")
-      // question 1 is arithmetic, so we parse it as such
+      // question 3 is word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
@@ -122,7 +122,7 @@ function doTheThing() {
     return doQuestion(nexturl, "GET")
     .then(response => {
       console.log("----- Answering question 4 -----")
-      // question 1 is arithmetic, so we parse it as such
+      // question 4 is a word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
