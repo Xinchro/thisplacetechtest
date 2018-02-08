@@ -116,7 +116,18 @@ function doTheThing() {
       return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
     })
   })
-  // TODO .then(nexturl => { // question 4
+  .then(nexturl => { // question 4
+    console.log("----- Getting question 4 -----")
+    // get the question and, once it's been answered, return with the URL of the next question
+    return doQuestion(nexturl, "GET")
+    .then(response => {
+      console.log("----- Answering question 4 -----")
+      // question 1 is arithmetic, so we parse it as such
+      const w = parseWordQuestion(response)
+      // answer the question and return with the URL of the next question
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+    })
+  })
   // TODO .then(nexturl => { // question 5
 
   // simply just constructs the answer body for POSTs
