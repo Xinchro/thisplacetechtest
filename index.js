@@ -20,7 +20,7 @@ function doTheThing() {
   // setting your name
   doQuestion(URLs[0], "POST", `{"name": "${username}"}`)
   .then(response => {
-    return addAndSetNextURL(getNextURL(response))
+    return addToURLs(getNextURL(response))
   })
   .then(nexturl => { // question 1
     console.log("----- Getting question 1 -----")
@@ -31,7 +31,7 @@ function doTheThing() {
       // question 1 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addToURLs(getNextURL(response)))
     })
   })
 
@@ -44,7 +44,7 @@ function doTheThing() {
       // question 2 is arithmetic, so we parse it as such
       const q = parseArithmeticQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doMath(q[0], q[1], q[2]))).then(response => addToURLs(getNextURL(response)))
     })
   })
 
@@ -57,7 +57,7 @@ function doTheThing() {
       // question 3 is word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addToURLs(getNextURL(response)))
     })
   })
 
@@ -70,7 +70,7 @@ function doTheThing() {
       // question 4 is a word question, so we parse it as such
       const w = parseWordQuestion(response)
       // answer the question and return with the URL of the next question
-      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addAndSetNextURL(getNextURL(response)))
+      return doQuestion(nexturl, "POST", answer(doWord(w[0], w[1], w[2]))).then(response => addToURLs(getNextURL(response)))
     })
   })
 
@@ -140,16 +140,6 @@ function doTheThing() {
   function answer(answer) {
     return `{"answer":"${answer}"}`
   }
-}
-
-/*
-  Adds a URL to the URL list and sets it to the next URL
-  @returns string - the next URL
-*/
-function addAndSetNextURL(url) {
-  nextURL = addToURLs(url)
-  console.log("Next URL is:", nextURL)
-  return nextURL
 }
 
 /*
