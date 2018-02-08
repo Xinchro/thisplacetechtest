@@ -62,7 +62,20 @@ const quests = {
   }
 }
 
+let username = "ThisIsNotAName"
 
+function doTheThing() {
+  let newName = process.argv[2]
+  if(typeof newName === "string") {
+    console.log(`Your name is ${newName}!`)
+    username = newName
+  }
+  if(typeof newName === undefined) {
+    // TODO newName = generateName()
+  }
+}
+
+doTheThing()
 
 /* question 5 breakdown
 
