@@ -62,6 +62,9 @@ const quests = {
   }
 }
 
+let URLs = ["/hello"]
+let nextURL = URLs[0]
+
 let username = "ThisIsNotAName"
 
 function doTheThing() {
@@ -74,10 +77,24 @@ function doTheThing() {
   }
 
   // setting your name
-  doQuestion("/hello", "POST", `{"name": "${username}"}`)
+  doQuestion(URLs[0], "POST", `{"name": "${username}"}`)
   .then(response => {
-    // TODO addToURLs(getNextURL(response))
+    addAndSetNextURL(getNextURL(response))
   })
+}
+
+function addAndSetNextURL(url) {
+  nextURL = addToURLs(url)
+  console.log("Next URL is:", nextURL)
+}
+
+/*
+  Adds to the URL list and return the next(latest) URL
+*/
+function addToURLs(url) {
+  URLs.push(url)
+  console.log("URLs are now:", URLs)
+  return URLs[URLs.length-1]
 }
 
 function generateName() {
