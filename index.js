@@ -69,10 +69,26 @@ function doTheThing() {
   if(typeof newName === "string") {
     console.log(`Your name is ${newName}!`)
     username = newName
+  } else {
+    newName = generateName()
   }
-  if(typeof newName === undefined) {
-    // TODO newName = generateName()
+}
+
+function generateName() {
+  let aName = ""
+
+  let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+  const nameMin = 5
+  const nameMax = 10
+  const nameLimit = Math.floor(Math.random() * (nameMax - nameMin) + nameMin)
+
+  for(let i=0; i<nameLimit; i++) {
+    aName = aName.concat(chars[Math.floor(Math.random() * (chars.length - 1))]) // array limit is -1 from length - goes from 0 to length
   }
+
+  console.log("name generated: ", aName)
+  return aName
 }
 
 doTheThing()
