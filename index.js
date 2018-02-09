@@ -110,8 +110,7 @@ function doTheThing() {
         console.log(response)
         console.log("Our answer, guess 1:", 4)
         console.log("\n")
-        let remaining = parseGuessQuestion(response)[1]
-        let lastGuess = [4, 9, 0] // initial guess, upper and lower limits
+        let lastGuess = [4, 9, 0] // initial guess(4), upper(9) and lower(0) limits
         let currentNumber = lastGuess[0]
         let upperLimit = lastGuess[1]
         let lowerLimit = lastGuess[2]
@@ -233,15 +232,18 @@ function guessANumber(currNo, upperNo, lowerNo, upperlower) {
     return currNo
   }
 
+  // checks if our number was less or greater than the actual number
   if(upperlower === "less") {
+    // sets our current number to the halfway point between the current number and the lower limit
     currentNo = currNo - Math.ceil((currNo - lowerNo) / 2)
+    // sets the upper limit to the current number
     upperLimit = currNo
-    lowerLimit = lowerNo
   }
   else
   if(upperlower === "greater") {
+    // sets our current number to the halfway point between the current number and the upper limit
     currentNo = currNo + Math.ceil((upperNo - currNo) / 2)
-    upperLimit = upperNo
+    // sets out lower limit to the current number
     lowerLimit = currNo
   }
 
