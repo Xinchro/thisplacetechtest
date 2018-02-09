@@ -1,5 +1,6 @@
 const fetch = require("node-fetch")
 const fs = require("fs")
+const path = require("path")
 
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
@@ -450,7 +451,7 @@ function saveHTML(markup) {
       console.error("Failed to save markup", error)
       throw error
     }
-    console.log("Markup saved successfully")
+    console.log(`Markup saved successfully to ${path.join(__dirname, "/winner.html")}`)
   })
 }
 
