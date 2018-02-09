@@ -1,7 +1,6 @@
 const fetch = require("node-fetch")
-const fs = require("fs")
-const path = require("path")
 const { parseArithmeticQuestion, parseWordQuestion, parseGuessQuestion } = require("./parsers")
+const { getAndSave, saveHTML } = require("./markup")
 
 // tech test base url
 const baseURL = "http://dev-challenge.thisplace.com"
@@ -124,7 +123,7 @@ function doTheThing() {
         // also save the victory markup as a file
         if(parseGuessQuestion(response)[0] === "correct") {
           console.log("I AM INVINCIBLE")
-          getAndSave(getNextURL(response))
+          getAndSave(doQuestion(getNextURL(response), "GET"))
           return
         }
 
@@ -143,7 +142,7 @@ function doTheThing() {
           lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
           if(parseGuessQuestion(response)[0] === "correct") {
             console.log("I AM INVINCIBLE")
-            getAndSave(getNextURL(response))
+            getAndSave(doQuestion(getNextURL(response), "GET"))
             return
           }
           doQuestion(nexturl, "POST", answer(lastGuess[0]))
@@ -154,7 +153,7 @@ function doTheThing() {
             lastGuess = guessANumber(lastGuess[0], lastGuess[1], lastGuess[2], parseGuessQuestion(response)[0])
             if(parseGuessQuestion(response)[0] === "correct") {
               console.log("I AM INVINCIBLE")
-              getAndSave(getNextURL(response))
+              getAndSave(doQuestion(getNextURL(response), "GET"))
               return
             }
             doQuestion(nexturl, "POST", answer(lastGuess[0]))
@@ -164,7 +163,7 @@ function doTheThing() {
               console.log("\n")
               if(parseGuessQuestion(response)[0] === "correct") {
                 console.log("I AM INVINCIBLE")
-                getAndSave(getNextURL(response))
+                getAndSave(doQuestion(getNextURL(response), "GET"))
                 return
               } else {
                 console.log(parseGuessQuestion(response)[0])
@@ -374,31 +373,6 @@ function doWord(firstlast, count, word) {
     console.error("Erroneous first|last in doWord()")
     return "Erroneous first|last"
   }
-}
-
-
-/*
-  Gets and saves the markup from a URL
-*/
-function getAndSave(url) {
-  doQuestion(url, "GET")
-  .then(markup => {
-    saveHTML(markup)
-  })
-}
-
-/*
-  Simple function to spit out a markup/HTML file based on a string
-  @returns undefined - nothing
-*/
-function saveHTML(markup) {
-  fs.writeFile("./winner.html", markup, "utf8", (error) => {
-    if(error) {
-      console.error("Failed to save markup", error)
-      throw error
-    }
-    console.log(`Markup saved successfully to ${path.join(__dirname, "/winner.html")}`)
-  })
 }
 
 doTheThing()
