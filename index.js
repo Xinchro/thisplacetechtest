@@ -296,24 +296,6 @@ function doMath(in1, func, in2) {
 }
 
 /*
-  Returns the first characters (of length "count") of a given string
-  @returns string - substring of specified length
-*/
-function firstChars(count, word) {
-  if(count > word.length) return "Error, specified length is bigger than string"
-  return word.substring(0, count)
-}
-
-/*
-  Returns the last characters (of length "count") of a given string
-  @returns string - substring of specified length
-*/
-function lastChars(count, word) {
-  if(count > word.length) return "Error, specified length is bigger than string"
-  return word.substring(word.length-count, word.length)
-}
-
-/*
   Simple logic to decide if we're looking for the first or last characters in a string
   @returns string - substring of specified length, from either the start or end of a string, error message is there's a problem
 */
@@ -326,6 +308,24 @@ function doWord(firstlast, count, word) {
   } else {
     console.error("Erroneous first|last in doWord()")
     return "Erroneous first|last"
+  }
+
+  /*
+    Returns the first characters (of length "count") of a given string
+    @returns string - substring of specified length
+  */
+  function firstChars(count, word) {
+    if(count > word.length) return "Error, specified length is bigger than string"
+    return word.substring(0, count)
+  }
+
+  /*
+    Returns the last characters (of length "count") of a given string
+    @returns string - substring of specified length
+  */
+  function lastChars(count, word) {
+    if(count > word.length) return "Error, specified length is bigger than string"
+    return word.substring(word.length-count, word.length)
   }
 }
 
