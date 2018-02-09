@@ -9,7 +9,11 @@ let URLs = ["/hello"]
 
 let username = "ThisIsNotAName"
 
+/*
+  Main function for running the entire tech test.
+*/
 function doTheThing() {
+  // either get the name from the console input or generate one
   let newName = process.argv[2]
   if(typeof newName === "string") {
     console.log(`Your name is ${newName}!`)
