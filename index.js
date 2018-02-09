@@ -244,8 +244,6 @@ function parseWordQuestion(response) {
   return [wordQ[3], wordQ[4], wordQ[wordQ.length-1]] // final question: last|first <number> <word>"
 }
 
-doTheThing()
-
 /*
   Parses a response and looks for 2 regex patterns to match the structure of a guess question
   First pattern is to find if our guess was greater, less or correct
@@ -455,3 +453,5 @@ function saveHTML(markup) {
     console.log("Markup saved successfully")
   })
 }
+
+doTheThing()
